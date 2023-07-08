@@ -1,0 +1,6 @@
+to generate dto .g file
+run the following command
+
+flutter pub run build_runner build
+or
+flutter pub run build_runner build --delete-conflicting-outputs
