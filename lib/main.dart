@@ -1,3 +1,8 @@
+import 'package:first_app/pages/ContestsPage.dart';
+import 'package:first_app/pages/HacksPage.dart';
+import 'package:first_app/pages/ProfilePage.dart';
+import 'package:first_app/pages/RatingHistory.dart';
+
 import 'pages/StartPage.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +21,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const StartPage(),
+      home: const ProfilePage(),
+      routes: {
+        StartPage.routeName: (context) => const StartPage(),
+        ProfilePage.routeName: (context) => const ProfilePage(),
+        RatingHistory.routeName: (context) => const RatingHistory(),
+        ContestsPage.routeName: (context) => const ContestsPage(),
+        HacksPage.routeName: (context) => const HacksPage(),
+      },
     );
   }
 }

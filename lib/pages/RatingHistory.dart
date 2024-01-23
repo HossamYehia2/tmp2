@@ -8,6 +8,8 @@ import '../objects/RatingHistoryRecord.dart';
 class RatingHistory extends StatefulWidget {
   const RatingHistory({super.key});
 
+  static const routeName = '/ratingHistory';
+
   @override
   State<RatingHistory> createState() => _RatingHistoryState();
 }

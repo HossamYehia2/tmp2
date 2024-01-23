@@ -1,9 +1,14 @@
+import 'package:first_app/pages/ContestsPage.dart';
+import 'package:first_app/pages/HacksPage.dart';
+
 import 'ProfilePage.dart';
 import 'package:flutter/material.dart';
 import '../Variables.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({Key? key}) : super(key: key);
+
+  static const routeName = '/startPage';
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,7 @@ class _StartPageWidgetState extends State<StartPageWidget> {
   }
 
   void buttonAction() {
-    userName = myController.text.toString();
+    // userName = myController.text.toString();
     Navigator.pop(context);
     Navigator.push(
       context,

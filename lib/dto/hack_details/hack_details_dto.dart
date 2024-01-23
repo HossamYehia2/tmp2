@@ -10,6 +10,7 @@ class HackDetailsDto {
         required this.hackId,
         required this.hackTime,
         required this.hackerName,
+        required this.defenderName,
         required this.verdict,
         required this.problemDto,
       });
@@ -27,6 +28,9 @@ class HackDetailsDto {
 
   @JsonKey(name: 'hackerName')
   final String hackerName;
+
+  @JsonKey(name: 'defenderName')
+  final String defenderName;
 
   @JsonKey(name: 'verdict')
   final String? verdict;

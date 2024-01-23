@@ -11,6 +11,7 @@ HackDetailsDto _$HackDetailsDtoFromJson(Map<String, dynamic> json) =>
       hackId: json['hackId'] as int,
       hackTime: json['creationTimeSeconds'] as int,
       hackerName: json['hackerName'] as String,
+      defenderName: json['defenderName'] as String,
       verdict: json['verdict'] as String?,
       problemDto: ProblemDto.fromJson(json['problem'] as Map<String, dynamic>),
     );
@@ -20,6 +21,7 @@ Map<String, dynamic> _$HackDetailsDtoToJson(HackDetailsDto instance) =>
       'hackId': instance.hackId,
       'creationTimeSeconds': instance.hackTime,
       'hackerName': instance.hackerName,
+      'defenderName': instance.defenderName,
       'verdict': instance.verdict,
       'problem': instance.problemDto,
     };

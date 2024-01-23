@@ -3,6 +3,8 @@
 import '../pages/ContestsPage.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/HacksPage.dart';
+import '../pages/ProfilePage.dart';
 import '../pages/RatingHistory.dart';
 
 class NavBar extends StatelessWidget {
@@ -29,8 +31,20 @@ class NavBar extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.accessibility),
+              title: const Text('Home page'),
+              onTap: () => {
+                Navigator.pop(context),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                ),
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.accessibility),
               title: const Text('Contests'),
               onTap: () => {
+                Navigator.pop(context),
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ContestsPage()),
@@ -42,7 +56,7 @@ class NavBar extends StatelessWidget {
               title: const Text('Rating history'),
               onTap: () => {
                 // send request, get response
-
+                Navigator.pop(context),
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const RatingHistory()),
@@ -50,9 +64,15 @@ class NavBar extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('Get your info'),
-              onTap: () => {Navigator.of(context).pop()},
+              leading: const Icon(Icons.accessibility),
+              title: const Text('Hacks page'),
+              onTap: () => {
+                Navigator.pop(context),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HacksPage()),
+                ),
+              },
             ),
             ListTile(
               leading: const Icon(Icons.info),

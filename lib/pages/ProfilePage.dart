@@ -8,9 +8,12 @@ import '../dto/user_info/user_info_response_dto.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/Initializer.dart';
+import '../utils/Utils.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  static const routeName = '/profilePage';
 
   @override
   Widget build(BuildContext context) {
@@ -112,26 +115,26 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Widget getLoading() {
     return CustomPadding()
-        .get(0, getWidth(0.75), 0, 0, const CircularProgressIndicator());
+        .get(0, Utils().getWidth(0.75, context), 0, 0, const CircularProgressIndicator());
   }
 
   Widget getProfilePhoto(image, firstName, lastName) {
     return CustomPadding().get(
       0,
-      getHeight(0.02),
+      Utils().getHeight(0.02, context),
       0,
       0,
       Container(
-        height: getHeight(0.25),
-        width: getWidth(0.90),
+        height: Utils().getHeight(0.25, context),
+        width: Utils().getWidth(0.90, context),
         decoration: getBoxDecoration(),
         child: Column(
           children: <Widget>[
-                CustomPadding().get(0, getHeight(0.01), 0, getHeight(0.01), CircleAvatar(
+                CustomPadding().get(0, Utils().getHeight(0.01, context), 0, Utils().getHeight(0.01, context), CircleAvatar(
                   backgroundColor: handleColor.withOpacity(0.7),
-                  radius: getWidth(0.19),
+                  radius: Utils().getWidth(0.19, context),
                   child: CircleAvatar(
-                    radius: getWidth(0.185),
+                    radius: Utils().getWidth(0.185, context),
                     backgroundImage: image,
                   ),
               )),
@@ -144,28 +147,28 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Widget getDetails() {
     return Container(
-      height: getHeight(0.32),
-      width: getWidth(0.90),
+      height: Utils().getHeight(0.32, context),
+      width: Utils().getWidth(0.90, context),
       decoration: getBoxDecoration(),
       child: CustomPadding().get(
         0,
-        getHeight(0.01),
+        Utils().getHeight(0.01, context),
         0,
         0,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            concatenate('Handle: ', userInfoResponseDto.handle, handleColor, const Icon(Icons.bolt_outlined, color: Colors.orange)),
-            concatenate(
-                'Contribution: ', userInfoResponseDto.contribution.toString(), Colors.black, Image.asset("images/3.png", width: getWidth(0.055), height: getHeight(0.03), fit: BoxFit.fill)),
-            concatenate('Lives in: ',
-                "${userInfoResponseDto.city}, ${userInfoResponseDto.country}", Colors.black, const Icon(Icons.home, color: Colors.purple,)),
-            concatenate(
-                'Current Rating: ', userInfoResponseDto.rating.toString(), Colors.black, const Icon(Icons.calculate, color: Colors.purple,)),
-            concatenate('Current Rank: ', userInfoResponseDto.rank.toString(), handleColor, Icon(Icons.person_outline, color: handleColor,)),
-            concatenate(
-                'Maximum Rating: ', userInfoResponseDto.maxRating.toString(), Colors.black, Image.asset("images/1.jpg", width: getWidth(0.06), height: getHeight(0.03), fit: BoxFit.fill)),
-            concatenate('Maximum Rank: ', userInfoResponseDto.maxRank.toString(), maxRankColor, Image.asset("images/1.jpg", width: getWidth(0.06), height: getHeight(0.03), fit: BoxFit.fill)),
+            Utils().concatenate('Handle: ', userInfoResponseDto.handle, handleColor, const Icon(Icons.bolt_outlined, color: Colors.orange), context),
+            Utils().concatenate(
+                'Contribution: ', userInfoResponseDto.contribution.toString(), Colors.black, Image.asset("images/3.png", width: Utils().getWidth(0.055, context), height: Utils().getHeight(0.03, context), fit: BoxFit.fill), context),
+            Utils().concatenate('Lives in: ',
+                "${userInfoResponseDto.city}, ${userInfoResponseDto.country}", Colors.black, const Icon(Icons.home, color: Colors.purple,), context),
+            Utils().concatenate(
+                'Current Rating: ', userInfoResponseDto.rating.toString(), Colors.black, const Icon(Icons.calculate, color: Colors.purple,), context),
+            Utils().concatenate('Current Rank: ', userInfoResponseDto.rank.toString(), handleColor, Icon(Icons.person_outline, color: handleColor,), context),
+            Utils().concatenate(
+                'Maximum Rating: ', userInfoResponseDto.maxRating.toString(), Colors.black, Image.asset("images/1.jpg", width: Utils().getWidth(0.06, context), height: Utils().getHeight(0.03, context), fit: BoxFit.fill), context),
+            Utils().concatenate('Maximum Rank: ', userInfoResponseDto.maxRank.toString(), maxRankColor, Image.asset("images/1.jpg", width: Utils().getWidth(0.06, context), height: Utils().getHeight(0.03, context), fit: BoxFit.fill), context),
           ],
         ),
       ),
@@ -174,16 +177,16 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Widget getNumbers() {
     return Container(
-        height: getHeight(0.1),
-        width: getWidth(0.90),
+        height: Utils().getHeight(0.1, context),
+        width: Utils().getWidth(0.90, context),
         decoration: getBoxDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            concatenate('Number of friends followed you : ',
-                userInfoResponseDto.friendOf.toString(), Colors.black, const Icon(Icons.people_alt_outlined)),
-            concatenate('Number of official practiced contests : ',
-                ratingHistoryResponseList.length.toString(), Colors.black, const Icon(Icons.bar_chart)),
+            Utils().concatenate('Number of friends followed you : ',
+                userInfoResponseDto.friendOf.toString(), Colors.black, const Icon(Icons.people_alt_outlined), context),
+            Utils().concatenate('Number of official practiced contests : ',
+                ratingHistoryResponseList.length.toString(), Colors.black, const Icon(Icons.bar_chart), context),
           ],
         ));
   }
@@ -230,10 +233,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Widget getProfileInfoText() {
     return CustomPadding().get(
-      getWidth(0.08),
-      getHeight(0.03),
+      Utils().getWidth(0.08, context),
+      Utils().getHeight(0.03, context),
       0,
-      getHeight(0.01),
+      Utils().getHeight(0.01, context),
       const Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -244,10 +247,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Widget getRecordText() {
     return CustomPadding().get(
-      getWidth(0.08),
-      getHeight(0.03),
+      Utils().getWidth(0.08, context),
+      Utils().getHeight(0.03, context),
       0,
-      getHeight(0.01),
+      Utils().getHeight(0.01, context),
       const Align(alignment: Alignment.topLeft, child: Text('Records', style: TextStyle(fontWeight: FontWeight.bold))),
     );
   }
@@ -264,29 +267,5 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
       ],
       borderRadius: const BorderRadius.all(Radius.circular(20)),
     );
-  }
-
-  Widget concatenate(firstString, secondString, textColor, icon) {
-    return CustomPadding().get(
-      getWidth(0.01),
-      getHeight(0.01),
-      0,
-      0,
-      Row(
-        children: [
-          icon,
-          CustomPadding().get(getWidth(0.02), 0, 0, 0, Text("$firstString")),
-          Text(" $secondString", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-
-  double getHeight(ratio) {
-    return SizeUtils().getHeightRatio(context, ratio);
-  }
-
-  double getWidth(ratio) {
-    return SizeUtils().getWidthRatio(context, ratio);
   }
 }
