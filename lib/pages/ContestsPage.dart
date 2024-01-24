@@ -19,15 +19,15 @@ class ContestsPage extends StatefulWidget {
 class _ContestsPageState extends State<ContestsPage> {
 
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Finished Contests'),
-    Tab(text: 'Current Contests'),
-    Tab(text: 'Upcoming Contests'),
+    Tab(text: 'Finished'),
+    Tab(text: 'Current'),
+    Tab(text: 'Upcoming'),
   ];
 
   List<List<ContestRecordWidget>> contestCategories = [];
 
   _ContestsPageState() {
-    prepareContestsData();
+    contestCategories = [passedContestList, currentContestList, futureContestList];
   }
 
   @override
@@ -54,23 +54,5 @@ class _ContestsPageState extends State<ContestsPage> {
         ),
       ),
     );
-  }
-
-  void prepareContestsData() {
-
-    print("Hello from prepare");
-
-    List<ContestRecordWidget> list1 = [
-      ContestRecordWidget(id: 1, name: 'a', durationSeconds: 30, startTime: 2,),
-      ContestRecordWidget(id: 1, name: 'b', durationSeconds: 30, startTime: 2,),
-    ];
-
-    List<ContestRecordWidget> list2 = [
-      ContestRecordWidget(id: 1, name: 'c', durationSeconds: 30, startTime: 2,),    ];
-
-    List<ContestRecordWidget> list3 = [
-      ContestRecordWidget(id: 1, name: 'd', durationSeconds: 30, startTime: 2,),    ];
-
-    contestCategories = [passedContestList, currentContestList, futureContestList];
   }
 }

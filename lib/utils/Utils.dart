@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../Utils/CustomPadding.dart';
 import '../Utils/SizeUtils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   Widget concatenate(firstString, secondString, textColor, icon, context, {double? textSize = 14.0}) {
@@ -27,14 +26,5 @@ class Utils {
 
   double getWidth(ratio, context) {
     return SizeUtils().getWidthRatio(context, ratio);
-  }
-
-  void openLink(String url) async {
-    Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      print('Could not launch $url');
-    }
   }
 }

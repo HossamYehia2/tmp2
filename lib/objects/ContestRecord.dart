@@ -8,6 +8,7 @@ import 'package:timezone/data/latest.dart' as tzdata;
 import '../Utils/CustomPadding.dart';
 import '../Utils/SizeUtils.dart';
 import '../Utils/Utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContestRecordWidget extends StatefulWidget {
   int? id;
@@ -45,14 +46,15 @@ class _ContestRecordWidgetState extends State<ContestRecordWidget> {
     var egyptLocation = tz.getLocation(egyptTimeZone);
     var egyptTime = tz.TZDateTime.from(utcDateTime, egyptLocation);
 
-    String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(egyptTime);
+    String formattedDate = DateFormat('dd/MM/yyyy - hh:mm a').format(egyptTime);
 
     double screenWidth = SizeUtils().getWidth(context);
 
     return GestureDetector(
       onTap: () {
         var url = 'https://codeforces.com/contests/${widget.id}';
-        Utils().openLink(url);
+        Uri uri = Uri.parse(url);
+        launchUrl(uri);
       },
       child: Container(
         margin: EdgeInsets.symmetric(
