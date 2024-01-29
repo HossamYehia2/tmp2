@@ -45,11 +45,14 @@ class Initializer {
           .add(RatingHistoryResponseDto.fromJson(ratingHistoryResponse[i]));
     }
 
+    // Sort rating history in decreasing order
+    ratingHistoryResponseList = ratingHistoryResponseList.reversed.toList();
+
     isRatingHistoryResponseListLoaded = true;
   }
 
   Future<void> loadContestList() async {
-    print("In loadContestList");
+    // print("In loadContestList");
     if(isContestsListLoaded == true)
     {
       return;
@@ -59,7 +62,7 @@ class Initializer {
 
     for (int i = 0; i < contestListResponse.length; ++i) {
       var contest = ContestListResponseDto.fromJson(contestListResponse[i]);
-      if(contest.type != 'CF') {
+      if(contest.type != 'CF' && contest.type != 'ICPC') {
           continue;
       }
 
@@ -80,9 +83,12 @@ class Initializer {
       }
     }
 
+    // Sort upcoming contest in decreasing order
+    futureContestList = futureContestList.reversed.toList();
+
     isContestsListLoaded = true;
-    print("isContestsListLoaded");
-    print(isContestsListLoaded);
+    // print("isContestsListLoaded");
+    // print(isContestsListLoaded);
   }
 
   Future<void> loadSubmissionHistory() async {

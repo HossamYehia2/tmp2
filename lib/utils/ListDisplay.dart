@@ -12,18 +12,17 @@ class ListDisplay extends StatefulWidget {
 class DynamicList extends State<ListDisplay> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Expanded(
-            child: ListView.builder(
-                itemCount: widget.itemsList.length,
-                itemBuilder: (context, int index) {
-                  return Card(
-                    child: widget.itemsList[index] as Widget,
-                  );
-                }))
-      ],
-    ));
+    return ListView.builder(
+      itemCount: widget.itemsList.length,
+      itemBuilder: (context, int index) {
+        return Card(
+          color: Colors.transparent, // Transparent Card background color
+          elevation: 0, // No elevation shadow
+          child: widget.itemsList[index] as Widget,
+        );
+      },
+    );
   }
 }
+
+

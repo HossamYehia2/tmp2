@@ -5,16 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzdata;
 
-import '../Utils/CustomPadding.dart';
 import '../Utils/SizeUtils.dart';
-import '../Utils/Utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContestRecordWidget extends StatefulWidget {
-  int? id;
-  String? name;
-  int? durationSeconds;
-  int? startTime;
+  final int? id;
+  final String? name;
+  final int? durationSeconds;
+  final int? startTime;
 
   ContestRecordWidget({
     Key? key,
@@ -46,9 +44,7 @@ class _ContestRecordWidgetState extends State<ContestRecordWidget> {
     var egyptLocation = tz.getLocation(egyptTimeZone);
     var egyptTime = tz.TZDateTime.from(utcDateTime, egyptLocation);
 
-    String formattedDate = DateFormat('dd/MM/yyyy - hh:mm a').format(egyptTime);
-
-    double screenWidth = SizeUtils().getWidth(context);
+    String formattedDate = DateFormat('MMM dd HH:mm').format(egyptTime).toUpperCase();
 
     return GestureDetector(
       onTap: () {
@@ -58,52 +54,56 @@ class _ContestRecordWidgetState extends State<ContestRecordWidget> {
       },
       child: Container(
         margin: EdgeInsets.symmetric(
-          vertical: Utils().getHeight(0.02, context),
-          horizontal: screenWidth < 600 ? Utils().getWidth(0.02, context) : Utils().getWidth(0.04, context),
+          vertical: SizeUtils().getHeight(context) * 0.01,
+          horizontal: SizeUtils().getWidth(context) * 0.04,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(Utils().getHeight(0.02, context)),
-          boxShadow: [
-            BoxShadow(color: Colors.grey, blurRadius: 4, offset: Offset(4, 8)),
+          color: Colors.grey[300], // Light gray background color for the container
+          borderRadius: BorderRadius.circular(SizeUtils().getHeight(context) * 0.02),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.blueGrey, // Dark shade for shadow
+              blurRadius: 4,
+              offset: Offset(0, 4),
+            ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            CustomPadding().get(
-              Utils().getWidth(0.02, context),
-              Utils().getHeight(0.02, context),
-              Utils().getWidth(0.02, context),
-              Utils().getHeight(0.02, context),
-              Text(
-                "Contest id : ${widget.id}",
-                style: TextStyle(fontSize: screenWidth < 600 ? Utils().getHeight(0.02, context) : Utils().getHeight(0.025, context), fontWeight: FontWeight.bold),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(SizeUtils().getHeight(context) * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    widget.name!,
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.022,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[800], // Soft blue text color for the contest name
+                    ),
+                  ),
+                  SizedBox(height: SizeUtils().getHeight(context) * 0.01),
+                  Text(
+                    formattedDate,
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.02,
+                      color: Colors.black87, // Dark gray text color for the start time
+                    ),
+                  ),
+                ],
               ),
             ),
-            CustomPadding().get(
-              Utils().getWidth(0.02, context),
-              0,
-              Utils().getWidth(0.02, context),
-              Utils().getHeight(0.02, context),
-              Text("Contest name : ${widget.name}", style: TextStyle(fontSize: screenWidth < 600 ? Utils().getHeight(0.018, context) : Utils().getHeight(0.02, context))),
-            ),
-            CustomPadding().get(
-              Utils().getWidth(0.02, context),
-              0,
-              Utils().getWidth(0.02, context),
-              Utils().getHeight(0.02, context),
-              Text(
-                "Contest Duration: ${contestDurationInHours} hours${contestDurationInMinutes != 0 ? ' and ${contestDurationInMinutes} minutes' : ''}",
-                style: TextStyle(fontSize: screenWidth < 600 ? Utils().getHeight(0.018, context) : Utils().getHeight(0.02, context)),
+            Positioned(
+              bottom: SizeUtils().getHeight(context) * 0.02,
+              right: SizeUtils().getWidth(context) * 0.04,
+              child: Text(
+                "${contestDurationInHours}h ${contestDurationInMinutes}m",
+                style: TextStyle(
+                  fontSize: SizeUtils().getHeight(context) * 0.018,
+                  color: Colors.black87, // Dark gray text color for the duration
+                ),
               ),
-            ),
-            CustomPadding().get(
-              Utils().getWidth(0.02, context),
-              0,
-              Utils().getWidth(0.02, context),
-              Utils().getHeight(0.02, context),
-              Text("Contest start time : ${formattedDate}", style: TextStyle(fontSize: screenWidth < 600 ? Utils().getHeight(0.018, context) : Utils().getHeight(0.02, context))),
             ),
           ],
         ),

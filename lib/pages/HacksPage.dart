@@ -1,11 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:first_app/objects/HackRecord.dart';
-
-import '../Utils/CustomPadding.dart';
 import '../Utils/ListDisplay.dart';
 import '../Utils/NavBar.dart';
-import 'package:flutter/material.dart';
-
-import '../Utils/SizeUtils.dart';
 import '../Variables.dart';
 import '../dto/hack_details/hack_details_dto.dart';
 import '../objects/RatingHistoryRecord.dart';
@@ -33,101 +29,108 @@ class _HacksPageState extends State<HacksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const NavBar(),
-        appBar: AppBar(
-          title: const Text('Hacks Page'),
-        ),
-        body: Center(
-          child : Column(children: [
-            DropdownButton<String>(
-              value: dropdownValue,
-              items: getItems(),
-              hint: const Text("Choose a contest"),
-              onChanged: (String? newValue) async {
-                setState(() {
-                  dropdownValue = newValue ?? "";
-                  getHacksList().then((res) => setState(() {
-                    hacksList = res;
-                  }));
-                });
-              },
-            ),
-          CustomPadding().get(
-              0,
-              Utils().getHeight(0.03, context),
-              0,
-              Utils().getHeight(0.00, context), getNumbers()),
+      drawer: const NavBar(),
+      appBar: AppBar(
+        title: const Text('Hacks Page'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
             Container(
-              height: Utils().getHeight(0.4, context),
-              width: Utils().getWidth(0.90, context),
-              child: CustomPadding().get(
-                  0,
-                  Utils().getHeight(0.03, context),
-                  0,
-                  Utils().getHeight(0.00, context), hacksList),
-            )
-          ]),
-        ));
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButton(
+                borderRadius: BorderRadius.circular(8),
+                value: dropdownValue,
+                items: getItems(),
+                hint: const Text("Choose a contest"),
+                onChanged: (String? newValue) async {
+                  setState(() {
+                    dropdownValue = newValue ?? "";
+                    getHacksList().then((res) => setState(() {
+                      hacksList = res;
+                    }));
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              decoration: getBoxDecoration(),
+              padding: const EdgeInsets.all(16),
+              child: getNumbers(),
+            ),
+            const SizedBox(height: 16),
+            /*Flexible(
+              child: Container(
+                decoration: getBoxDecoration(),
+                padding: const EdgeInsets.all(16),
+                child: hacksList ?? const ListDisplay(itemsList: []),
+              ),
+            ),*/
+          ],
+        ),
+      ),
+    );
   }
 
   Widget getNumbers() {
-
-    return Container(
-        height: Utils().getHeight(0.2, context),
-        width: Utils().getWidth(0.90, context),
-        decoration: getBoxDecoration(),
-        child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Utils().concatenate(
-                    'Number of successful hacks you did : ',
-                    MySuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.people_alt_outlined),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of un-successful hacks you did : ',
-                    MyUnSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.bar_chart),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of successful hacks done against you : ',
-                    AgainstSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.people_alt_outlined),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of un-successful hacks done against you : ',
-                    AgainstUnSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.bar_chart),
-                    context,
-                    textSize: 12),
-              ],
-            ));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Utils().concatenate(
+          'Number of successful hacks you did : ',
+          MySuccessfulHacksList.length.toString(),
+          Colors.black,
+          const Icon(Icons.people_alt_outlined),
+          context,
+          textSize: 12,
+        ),
+        Utils().concatenate(
+          'Number of un-successful hacks you did : ',
+          MyUnSuccessfulHacksList.length.toString(),
+          Colors.black,
+          const Icon(Icons.bar_chart),
+          context,
+          textSize: 12,
+        ),
+        Utils().concatenate(
+          'Number of successful hacks done against you : ',
+          AgainstSuccessfulHacksList.length.toString(),
+          Colors.black,
+          const Icon(Icons.people_alt_outlined),
+          context,
+          textSize: 12,
+        ),
+        Utils().concatenate(
+          'Number of un-successful hacks done against you : ',
+          AgainstUnSuccessfulHacksList.length.toString(),
+          Colors.black,
+          const Icon(Icons.bar_chart),
+          context,
+          textSize: 12,
+        ),
+      ],
+    );
   }
 
   BoxDecoration getBoxDecoration() {
     return BoxDecoration(
       color: Colors.white,
-      shape: BoxShape.rectangle,
-      border: Border.all(color: Colors.black38),
+      borderRadius: BorderRadius.circular(20),
       boxShadow: const [
-        BoxShadow(color: Colors.black, blurRadius: 4, offset: Offset(4, 8))
+        BoxShadow(color: Colors.black, blurRadius: 4, offset: Offset(4, 8)),
       ],
-      borderRadius: const BorderRadius.all(Radius.circular(20)),
     );
   }
 
   Future<Widget> getHacksList() async {
-    if(dropdownValue == null) {
-      List<Object> x = [];
-      return ListDisplay(itemsList: x);
+    if (dropdownValue == null) {
+      return const ListDisplay(itemsList: []);
     }
     print(dropdownValue);
     await loadContestHacks(dropdownValue.toString());
@@ -136,7 +139,6 @@ class _HacksPageState extends State<HacksPage> {
     print(MyUnSuccessfulHacksList.length);
     print(AgainstSuccessfulHacksList.length);
     print(AgainstUnSuccessfulHacksList.length);
-
 
     List<Object> x = [];
     List<HackDetailsDto> tmp = [];
@@ -149,10 +151,10 @@ class _HacksPageState extends State<HacksPage> {
     for (int i = 0; i < tmp.length; ++i) {
       var hack = tmp[i];
       x.add(HackRecordWidget(
-          problemName: hack.problemDto.name,
-          hacker: hack.hackerName,
-          defender: hack.defenderName,
-          verdict: hack.verdict
+        problemName: hack.problemDto.name,
+        hacker: hack.hackerName,
+        defender: hack.defenderName,
+        verdict: hack.verdict,
       ));
     }
 
@@ -164,6 +166,7 @@ class _HacksPageState extends State<HacksPage> {
     for (int i = 0; i < ratingHistoryResponseList.length; ++i) {
       var contest = ratingHistoryResponseList[i];
       ratingHistoryList.add(RatingHistoryRecordWidget(
+        id: contest.contestId,
         contestName: contest.contestName,
         rank: contest.rank,
         oldRating: contest.oldRating,
@@ -186,12 +189,13 @@ class _HacksPageState extends State<HacksPage> {
       mappedContestIds[contestName] = contestId;
     }
 
-    contestsList = ['A', 'B', 'C', 'D'];
+    // contestsList = ['A', 'B', 'C', 'D'];
   }
 
   List<DropdownMenuItem<String>>? getItems() {
     return contestsList.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
+        alignment: Alignment.center,
         value: value,
         child: Text(
           value,
