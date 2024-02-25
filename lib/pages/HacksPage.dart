@@ -42,7 +42,7 @@ class _HacksPageState extends State<HacksPage> {
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Hacks Page'),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.blue[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -110,6 +110,7 @@ class _HacksPageState extends State<HacksPage> {
           ],
         ),
       ),
+      backgroundColor: Colors.grey[200],
     );
   }
 

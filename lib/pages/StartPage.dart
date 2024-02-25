@@ -1,9 +1,5 @@
-import 'package:first_app/pages/ContestsPage.dart';
-import 'package:first_app/pages/HacksPage.dart';
-
-import 'ProfilePage.dart';
 import 'package:flutter/material.dart';
-import '../Variables.dart';
+import 'ProfilePage.dart'; // Ensure this import is correct for your project structure
 
 class StartPage extends StatelessWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -12,7 +8,15 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: StartPageWidget());
+    return Scaffold(
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          constraints: BoxConstraints(maxWidth: 600),
+          child: const StartPageWidget(),
+        ),
+      ),
+    );
   }
 }
 
@@ -34,38 +38,52 @@ class _StartPageWidgetState extends State<StartPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          getTextField(),
-          getTextButton(),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              getTextField(constraints),
+              SizedBox(height: 20),
+              getElevatedButton(context), // Pass context to use in buttonAction
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget getTextField() {
+  Widget getTextField(BoxConstraints constraints) {
     return TextField(
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: 'Enter your handle',
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
       controller: myController,
     );
   }
 
-  Widget getTextButton() {
-    return TextButton(
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+  Widget getElevatedButton(BuildContext context) {
+    // Updated to use buttonAction
+    return ElevatedButton(
+      onPressed: () => buttonAction(context), // Use buttonAction here
+      style: ElevatedButton.styleFrom(
+        primary: Colors.blue, // Button color
+        onPrimary: Colors.white, // Text color
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        textStyle: TextStyle(fontSize: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
         ),
-        onPressed: () => buttonAction(),
-        child: const Text('Enter'));
+      ),
+      child: Text('Enter'),
+    );
   }
 
-  void buttonAction() {
-    // userName = myController.text.toString();
+  void buttonAction(BuildContext context) {
+    // Navigate to ProfilePage
     Navigator.pop(context);
     Navigator.push(
       context,

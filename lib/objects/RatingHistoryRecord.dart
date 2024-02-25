@@ -42,78 +42,76 @@ class _RatingHistoryRecordWidgetState
       },
       child: Container(
         margin: EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: _getWidthRatio(0.05),
-        ),
-        padding: EdgeInsets.symmetric(
-          vertical: _getHeightRatio(0.012),
-          horizontal: _getWidthRatio(0.02),
+          vertical: SizeUtils().getHeight(context) * 0.01,
+          horizontal: SizeUtils().getWidth(context) * 0.04,
         ),
         decoration: BoxDecoration(
-          color: Colors.blue.shade100, // Use your preferred color
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          color: Colors.grey[300], // Light gray background color for the container
+          borderRadius: BorderRadius.circular(SizeUtils().getHeight(context) * 0.02),
+          boxShadow: const [
             BoxShadow(
-              color: Colors.grey.shade300, // Use your preferred color
+              color: Colors.blueGrey, // Dark shade for shadow
               blurRadius: 4,
-              offset: Offset(2, 4),
+              offset: Offset(0, 4),
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildText("${widget.contestName}"),
-            _buildText("Your Rank: ${widget.rank}"),
-            _buildText("You Rate after contest: ${widget.oldRating}"),
-            _buildText("You Rate before contest: ${widget.newRating}"),
-            _buildText(
-              "Delta: ${ratingDifference.sign == -1 ? '' : '+'}$ratingDifference",
-              color: differenceColor,
-              fontWeight: FontWeight.bold,
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(SizeUtils().getHeight(context) * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    widget.contestName!,
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.022,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[800], // Soft blue text color for the contest name
+                    ),
+                  ),
+                  SizedBox(height: SizeUtils().getHeight(context) * 0.01),
+                  Text(
+                    "Your rank : ${widget.rank.toString()}",
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.02,
+                      color: Colors.black87, // Dark gray text color for the start time
+                    ),
+                  ),
+                  SizedBox(height: SizeUtils().getHeight(context) * 0.01),
+                  Text(
+                    "Old rating : ${widget.oldRating.toString()}",
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.02,
+                      color: Colors.black87, // Dark gray text color for the start time
+                    ),
+                  ),
+                  SizedBox(height: SizeUtils().getHeight(context) * 0.01),
+                  Text(
+                    "New rating : ${widget.newRating.toString()}",
+                    style: TextStyle(
+                      fontSize: SizeUtils().getHeight(context) * 0.02,
+                      color: Colors.black87, // Dark gray text color for the start time
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: SizeUtils().getHeight(context) * 0.02,
+              right: SizeUtils().getWidth(context) * 0.04,
+              child: Text(
+                "Delta: ${ratingDifference.sign == -1 ? '' : '+'}$ratingDifference",
+                style: TextStyle(
+                  fontSize: SizeUtils().getHeight(context) * 0.018,
+                  color: differenceColor, // Dark gray text color for the duration
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildText(String text, {Color color = Colors.black, FontWeight fontWeight = FontWeight.normal}) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: _getHeightRatio(0.002),
-          horizontal: _getWidthRatio(0.02),
-        ),
-        child: Text(
-          textAlign: TextAlign.center,
-          text,
-          style: TextStyle(
-            fontSize: _getWidthRatio(0.04),
-            fontWeight: fontWeight,
-            color: color,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _launchContestUrl() async {
-    var url = 'https://codeforces.com/contest/${widget.id}';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
-      print(url);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Could not launch contest URL')));
-    }
-  }
-
-  double _getHeightRatio(double ratio) {
-    return SizeUtils().getHeightRatio(context, ratio);
-  }
-
-  double _getWidthRatio(double ratio) {
-    return SizeUtils().getWidthRatio(context, ratio);
   }
 }
