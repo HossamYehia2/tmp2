@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 // import 'package:telecom_app/HelperWidgets/banner_ad_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Utils/NavBar.dart';
+
 class ContactUsScreen extends StatelessWidget {
   final String email = 'yehiaapps@gmail.com';
 
@@ -18,9 +20,10 @@ class ContactUsScreen extends StatelessWidget {
     double buttonHeightRatio = MediaQuery.of(context).size.height * 0.05;
 
     return Scaffold(
+      drawer: const NavBar(),
       appBar: AppBar(
         title: FittedBox(fit: BoxFit.contain, child: Text(appBarText, textAlign: TextAlign.center)),
-        centerTitle: true,
+        backgroundColor: Colors.blue[800],
       ),
       body: Center(
         child: Column(
@@ -63,7 +66,7 @@ class ContactUsScreen extends StatelessWidget {
                   final Uri url = Uri.parse('mailto:$email?subject=$emailType');
                   launchUrl(url);
                 },
-                child: const FittedBox(fit: BoxFit.contain, child: Text('إرسال بريد إلكتروني', style: TextStyle(fontSize: 20),)),
+                child: const FittedBox(fit: BoxFit.contain, child: Text('Send an email', style: TextStyle(fontSize: 20),)),
               ),
             ),
             SizedBox(height: screenHeightRatio * 1.5),

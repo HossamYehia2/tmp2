@@ -23,10 +23,12 @@ class _RatingHistoryState extends State<RatingHistory> {
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Rating history'),
+        backgroundColor: Colors.blue[800],
       ),
       body: Center(
         child: getRatingHistory(),
       ),
+      backgroundColor: Colors.grey[200],
     );
   }
 

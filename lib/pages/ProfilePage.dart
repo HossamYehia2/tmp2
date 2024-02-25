@@ -21,8 +21,11 @@ class ProfilePage extends StatelessWidget {
         drawer: const NavBar(),
         appBar: AppBar(
           title: const Text('Home page'),
+          backgroundColor: Colors.blue[800],
         ),
-        body: const ProfilePageWidget());
+        body: const ProfilePageWidget(),
+        backgroundColor: Colors.grey[200],
+    );
   }
 }
 

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProfilePage(),
+      home: const StartPage(),
       routes: {
         StartPage.routeName: (context) => const StartPage(),
         ProfilePage.routeName: (context) => const ProfilePage(),

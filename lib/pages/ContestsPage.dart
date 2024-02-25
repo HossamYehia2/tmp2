@@ -37,13 +37,14 @@ class _ContestsPageState extends State<ContestsPage> {
       child: Scaffold(
         drawer: const NavBar(),
         appBar: AppBar(
-          bottom: TabBar(
+          bottom: const TabBar(
             // Use these colors for the selected and unselected tabs
-            indicatorColor: Colors.blueAccent, // Color for the indicator
+            indicatorColor: Colors.blue, // Color for the indicator
             labelColor: Colors.black, // Color for the selected tab labels
-            unselectedLabelColor: Colors.blue[800], // Color for the unselected tab labels
+            unselectedLabelColor: Colors.white, // Color for the unselected tab labels
             tabs: myTabs,
           ),
+          backgroundColor: Colors.blue[800],
           title: Text('Contests'), // Add a title or your preferred widget here
         ),
         body: TabBarView(
