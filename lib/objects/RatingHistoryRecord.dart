@@ -35,7 +35,11 @@ class _RatingHistoryRecordWidgetState
         : Colors.black;
 
     return GestureDetector(
-      onTap: () => _launchContestUrl(),
+      onTap: () {
+        var url = 'https://codeforces.com/contest/${widget.id}';
+        Uri uri = Uri.parse(url);
+        launchUrl(uri);
+      },
       child: Container(
         margin: EdgeInsets.symmetric(
           vertical: 8,
@@ -95,10 +99,11 @@ class _RatingHistoryRecordWidgetState
   }
 
   void _launchContestUrl() async {
-    var url = 'https://codeforces.com/contests/${widget.id}';
+    var url = 'https://codeforces.com/contest/${widget.id}';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
+      print(url);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Could not launch contest URL')));
     }

@@ -108,9 +108,9 @@ class Initializer {
 
   Future<void> loadHacks(contestId) async {
     clearHacksLists();
-    contestId = "1622";
-    print("contest id : ");
-    print(contestId);
+    // contestId = "1622";
+    // print("contest id : ");
+    // print(contestId);
 
     var contestHacksResponse = await sendGetContestHacksRequest(contestId);
     var contestHacksResponseSize = contestHacksResponse.length;

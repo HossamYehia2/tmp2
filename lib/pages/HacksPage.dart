@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:first_app/objects/HackRecord.dart';
 import '../Utils/ListDisplay.dart';
 import '../Utils/NavBar.dart';
 import '../Variables.dart';
 import '../dto/hack_details/hack_details_dto.dart';
-import '../objects/RatingHistoryRecord.dart';
 import '../utils/Initializer.dart';
-import '../utils/Utils.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 
 class HacksPage extends StatefulWidget {
@@ -20,11 +19,12 @@ class HacksPage extends StatefulWidget {
 }
 
 class _HacksPageState extends State<HacksPage> {
-  List<String> contestsList = []; // Replace with your actual contests list
+  List<String> contestsList = [];
   String? dropdownValue;
   var mappedContestIds = {};
-  bool isLoading = false; // Loading state flag
+  bool isLoading = false;
   Widget? hacksList;
+  bool showLink = false;
 
   @override
   void initState() {
@@ -34,6 +34,10 @@ class _HacksPageState extends State<HacksPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
+    var verticalPadding = screenSize.height * 0.09;
+
     return Scaffold(
       drawer: const NavBar(),
       appBar: AppBar(
@@ -43,7 +47,8 @@ class _HacksPageState extends State<HacksPage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DropdownButtonHideUnderline(
               child: DropdownButton<String>(
@@ -51,26 +56,56 @@ class _HacksPageState extends State<HacksPage> {
                 items: contestsList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Center(child: Text(value, textAlign: TextAlign.center,)),
                   );
                 }).toList(),
-                hint: const Text("Choose a contest"),
+                hint: const Text("Choose a contest", textAlign: TextAlign.center,),
                 onChanged: (String? newValue) {
                   setState(() {
+                    showLink = newValue != null;
                     dropdownValue = newValue ?? "";
                   });
                   getHacksList().then((res) => setState(() {
                     hacksList = res;
                   }));
                 },
+                alignment: Alignment.center,
                 isExpanded: true,
               ),
             ),
             const SizedBox(height: 20),
             Expanded(
               child: isLoading
-                  ? LoadingBars() // Show the loading bars when loading
-                  : getNumbers() ?? Center(child: Text('Please select a contest to show hacks.')), // Show the hacksList if it's not null
+                  ? LoadingBars()
+                  : Column(
+                mainAxisSize: MainAxisSize.min, // To prevent the Column from taking all available space.
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (showLink) getNumbers()
+                  else Center(child: Text('Please select a contest to see your hacks.')),
+                  SizedBox(height: verticalPadding),
+                  if (showLink)
+                    Center( // Center the button
+                      child: ElevatedButton(
+                        onPressed: () {
+                          var url = 'https://codeforces.com/contest/${mappedContestIds[dropdownValue!]}';
+                          Uri uri = Uri.parse(url);
+                          launchUrl(uri);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue, // Button color
+                          onPrimary: Colors.white, // Text color
+                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          textStyle: TextStyle(fontSize: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        child: Text('Open Codeforces Contest'),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),
@@ -107,13 +142,14 @@ class _HacksPageState extends State<HacksPage> {
     setState(() {
       isLoading = true; // Start loading
     });
-    print(dropdownValue);
+
+    // print(dropdownValue);
     await loadContestHacks(dropdownValue.toString());
 
-    print(MySuccessfulHacksList.length);
-    print(MyUnSuccessfulHacksList.length);
-    print(AgainstSuccessfulHacksList.length);
-    print(AgainstUnSuccessfulHacksList.length);
+    // print(MySuccessfulHacksList.length);
+    // print(MyUnSuccessfulHacksList.length);
+    // print(AgainstSuccessfulHacksList.length);
+    // print(AgainstUnSuccessfulHacksList.length);
 
     List<Object> x = [];
     List<HackDetailsDto> tmp = [];
@@ -152,7 +188,7 @@ class _HacksPageState extends State<HacksPage> {
 
   Widget getNumbers() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         // Replace this with your actual logic
         Text('Successful hacks you did: ${MySuccessfulHacksList.length}'),
