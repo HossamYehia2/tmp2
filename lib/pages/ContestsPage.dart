@@ -19,15 +19,15 @@ class ContestsPage extends StatefulWidget {
 class _ContestsPageState extends State<ContestsPage> {
 
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Finished Contests'),
-    Tab(text: 'Current Contests'),
-    Tab(text: 'Upcoming Contests'),
+    Tab(text: 'Finished'),
+    Tab(text: 'Current'),
+    Tab(text: 'Upcoming'),
   ];
 
   List<List<ContestRecordWidget>> contestCategories = [];
 
   _ContestsPageState() {
-    prepareContestsData();
+    contestCategories = [passedContestList, currentContestList, futureContestList];
   }
 
   @override
@@ -37,9 +37,14 @@ class _ContestsPageState extends State<ContestsPage> {
       child: Scaffold(
         drawer: const NavBar(),
         appBar: AppBar(
-          bottom: const TabBar(
+          bottom: TabBar(
+            // Use these colors for the selected and unselected tabs
+            indicatorColor: Colors.blueAccent, // Color for the indicator
+            labelColor: Colors.black, // Color for the selected tab labels
+            unselectedLabelColor: Colors.blue[800], // Color for the unselected tab labels
             tabs: myTabs,
           ),
+          title: Text('Contests'), // Add a title or your preferred widget here
         ),
         body: TabBarView(
           children: myTabs.asMap().map((index, tab) {
@@ -52,25 +57,8 @@ class _ContestsPageState extends State<ContestsPage> {
             );
           }).values.toList(),
         ),
+        backgroundColor: Colors.grey[200], // Light gray background color of the Scaffold
       ),
     );
-  }
-
-  void prepareContestsData() {
-
-    print("Hello from prepare");
-
-    List<ContestRecordWidget> list1 = [
-      ContestRecordWidget(id: 1, name: 'a', durationSeconds: 30, startTime: 2,),
-      ContestRecordWidget(id: 1, name: 'b', durationSeconds: 30, startTime: 2,),
-    ];
-
-    List<ContestRecordWidget> list2 = [
-      ContestRecordWidget(id: 1, name: 'c', durationSeconds: 30, startTime: 2,),    ];
-
-    List<ContestRecordWidget> list3 = [
-      ContestRecordWidget(id: 1, name: 'd', durationSeconds: 30, startTime: 2,),    ];
-
-    contestCategories = [passedContestList, currentContestList, futureContestList];
   }
 }

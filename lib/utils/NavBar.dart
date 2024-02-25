@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_returning_null_for_void
-
+import 'dart:io';
 import '../pages/ContestsPage.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +9,7 @@ import '../pages/RatingHistory.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,13 +20,14 @@ class NavBar extends StatelessWidget {
           children: <Widget>[
             const DrawerHeader(
               decoration: BoxDecoration(
-                  color: Colors.green,
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                          'https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg'))),
+                color: Colors.green,
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage("images/codeforces.jpg"),
+                ),
+              ),
               child: Text(
-                'Menu',
+                '',
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),

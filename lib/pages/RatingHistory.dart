@@ -34,6 +34,7 @@ class _RatingHistoryState extends State<RatingHistory> {
     for (int i = 0; i < ratingHistoryResponseList.length; ++i) {
       var contest = ratingHistoryResponseList[i];
       ratingHistoryList.add(RatingHistoryRecordWidget(
+          id: contest.contestId,
           contestName: contest.contestName,
           rank: contest.rank,
           oldRating: contest.oldRating,

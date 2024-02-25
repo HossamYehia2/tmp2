@@ -1,180 +1,118 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:first_app/objects/HackRecord.dart';
-
-import '../Utils/CustomPadding.dart';
 import '../Utils/ListDisplay.dart';
 import '../Utils/NavBar.dart';
-import 'package:flutter/material.dart';
-
-import '../Utils/SizeUtils.dart';
 import '../Variables.dart';
 import '../dto/hack_details/hack_details_dto.dart';
-import '../objects/RatingHistoryRecord.dart';
 import '../utils/Initializer.dart';
-import '../utils/Utils.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 
 class HacksPage extends StatefulWidget {
   const HacksPage({Key? key}) : super(key: key);
   static const routeName = '/hacksPage';
 
   @override
-  State<HacksPage> createState() => _HacksPageState();
+  _HacksPageState createState() => _HacksPageState();
 }
 
 class _HacksPageState extends State<HacksPage> {
   List<String> contestsList = [];
   String? dropdownValue;
   var mappedContestIds = {};
+  bool isLoading = false;
   Widget? hacksList;
+  bool showLink = false;
 
-  _HacksPageState() {
+  @override
+  void initState() {
+    super.initState();
     prepareContestsData();
   }
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
+    var verticalPadding = screenSize.height * 0.09;
+
     return Scaffold(
-        drawer: const NavBar(),
-        appBar: AppBar(
-          title: const Text('Hacks Page'),
-        ),
-        body: Center(
-          child : Column(children: [
-            DropdownButton<String>(
-              value: dropdownValue,
-              items: getItems(),
-              hint: const Text("Choose a contest"),
-              onChanged: (String? newValue) async {
-                setState(() {
-                  dropdownValue = newValue ?? "";
+      drawer: const NavBar(),
+      appBar: AppBar(
+        title: const Text('Hacks Page'),
+        backgroundColor: Colors.blueGrey,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                items: contestsList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Center(child: Text(value, textAlign: TextAlign.center,)),
+                  );
+                }).toList(),
+                hint: const Text("Choose a contest", textAlign: TextAlign.center,),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    showLink = newValue != null;
+                    dropdownValue = newValue ?? "";
+                  });
                   getHacksList().then((res) => setState(() {
                     hacksList = res;
                   }));
-                });
-              },
+                },
+                alignment: Alignment.center,
+                isExpanded: true,
+              ),
             ),
-          CustomPadding().get(
-              0,
-              Utils().getHeight(0.03, context),
-              0,
-              Utils().getHeight(0.00, context), getNumbers()),
-            Container(
-              height: Utils().getHeight(0.4, context),
-              width: Utils().getWidth(0.90, context),
-              child: CustomPadding().get(
-                  0,
-                  Utils().getHeight(0.03, context),
-                  0,
-                  Utils().getHeight(0.00, context), hacksList),
-            )
-          ]),
-        ));
-  }
-
-  Widget getNumbers() {
-
-    return Container(
-        height: Utils().getHeight(0.2, context),
-        width: Utils().getWidth(0.90, context),
-        decoration: getBoxDecoration(),
-        child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Utils().concatenate(
-                    'Number of successful hacks you did : ',
-                    MySuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.people_alt_outlined),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of un-successful hacks you did : ',
-                    MyUnSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.bar_chart),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of successful hacks done against you : ',
-                    AgainstSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.people_alt_outlined),
-                    context,
-                    textSize: 12),
-                Utils().concatenate(
-                    'Number of un-successful hacks done against you : ',
-                    AgainstUnSuccessfulHacksList.length.toString(),
-                    Colors.black,
-                    const Icon(Icons.bar_chart),
-                    context,
-                    textSize: 12),
-              ],
-            ));
-  }
-
-  BoxDecoration getBoxDecoration() {
-    return BoxDecoration(
-      color: Colors.white,
-      shape: BoxShape.rectangle,
-      border: Border.all(color: Colors.black38),
-      boxShadow: const [
-        BoxShadow(color: Colors.black, blurRadius: 4, offset: Offset(4, 8))
-      ],
-      borderRadius: const BorderRadius.all(Radius.circular(20)),
+            const SizedBox(height: 20),
+            Expanded(
+              child: isLoading
+                  ? LoadingBars()
+                  : Column(
+                mainAxisSize: MainAxisSize.min, // To prevent the Column from taking all available space.
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (showLink) getNumbers()
+                  else Center(child: Text('Please select a contest to see your hacks.')),
+                  SizedBox(height: verticalPadding),
+                  if (showLink)
+                    Center( // Center the button
+                      child: ElevatedButton(
+                        onPressed: () {
+                          var url = 'https://codeforces.com/contest/${mappedContestIds[dropdownValue!]}';
+                          Uri uri = Uri.parse(url);
+                          launchUrl(uri);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue, // Button color
+                          onPrimary: Colors.white, // Text color
+                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          textStyle: TextStyle(fontSize: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        child: Text('Open Codeforces Contest'),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  Future<Widget> getHacksList() async {
-    if(dropdownValue == null) {
-      List<Object> x = [];
-      return ListDisplay(itemsList: x);
-    }
-    print(dropdownValue);
-    await loadContestHacks(dropdownValue.toString());
-
-    print(MySuccessfulHacksList.length);
-    print(MyUnSuccessfulHacksList.length);
-    print(AgainstSuccessfulHacksList.length);
-    print(AgainstUnSuccessfulHacksList.length);
-
-
-    List<Object> x = [];
-    List<HackDetailsDto> tmp = [];
-
-    tmp.addAll(MySuccessfulHacksList);
-    tmp.addAll(MyUnSuccessfulHacksList);
-    tmp.addAll(AgainstSuccessfulHacksList);
-    tmp.addAll(AgainstUnSuccessfulHacksList);
-
-    for (int i = 0; i < tmp.length; ++i) {
-      var hack = tmp[i];
-      x.add(HackRecordWidget(
-          problemName: hack.problemDto.name,
-          hacker: hack.hackerName,
-          defender: hack.defenderName,
-          verdict: hack.verdict
-      ));
-    }
-
-    return ListDisplay(itemsList: x);
-  }
-
-  Widget getRatingHistory() {
-    List<Object> ratingHistoryList = [];
-    for (int i = 0; i < ratingHistoryResponseList.length; ++i) {
-      var contest = ratingHistoryResponseList[i];
-      ratingHistoryList.add(RatingHistoryRecordWidget(
-        contestName: contest.contestName,
-        rank: contest.rank,
-        oldRating: contest.oldRating,
-        newRating: contest.newRating,));
-    }
-
-    return ListDisplay(itemsList: ratingHistoryList);
-  }
-
-  /*************************************/
-  // prepare data
 
   void prepareContestsData() {
     for (int i = 0; i < ratingHistoryResponseList.length; ++i) {
@@ -186,19 +124,57 @@ class _HacksPageState extends State<HacksPage> {
       mappedContestIds[contestName] = contestId;
     }
 
-    contestsList = ['A', 'B', 'C', 'D'];
+    // contestsList = ['A', 'B', 'C', 'D'];
   }
 
-  List<DropdownMenuItem<String>>? getItems() {
-    return contestsList.map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(
-          value,
-          style: const TextStyle(fontSize: 15),
-        ),
-      );
-    }).toList();
+
+  Future<Widget> getHacksList() async {
+
+
+    // Placeholder for your getHacksList logic
+    // Simulate a network request with a delay
+
+
+    if (dropdownValue == null) {
+      return const ListDisplay(itemsList: []);
+    }
+
+    setState(() {
+      isLoading = true; // Start loading
+    });
+
+    // print(dropdownValue);
+    await loadContestHacks(dropdownValue.toString());
+
+    // print(MySuccessfulHacksList.length);
+    // print(MyUnSuccessfulHacksList.length);
+    // print(AgainstSuccessfulHacksList.length);
+    // print(AgainstUnSuccessfulHacksList.length);
+
+    List<Object> x = [];
+    List<HackDetailsDto> tmp = [];
+
+    tmp.addAll(MySuccessfulHacksList);
+    tmp.addAll(MyUnSuccessfulHacksList);
+    tmp.addAll(AgainstSuccessfulHacksList);
+    tmp.addAll(AgainstUnSuccessfulHacksList);
+
+
+    for (int i = 0; i < tmp.length; ++i) {
+      var hack = tmp[i];
+      x.add(HackRecordWidget(
+        problemName: hack.problemDto.name,
+        hacker: hack.hackerName,
+        defender: hack.defenderName,
+        verdict: hack.verdict,
+      ));
+    }
+
+    setState(() {
+      isLoading = false; // Stop loading after data is fetched
+    });
+
+    return ListDisplay(itemsList: x);
   }
 
   Future loadContestHacks(String contestName) async {
@@ -209,4 +185,82 @@ class _HacksPageState extends State<HacksPage> {
     var contestId = mappedContestIds[contestName];
     await Initializer().loadHacks(contestId);
   }
+
+  Widget getNumbers() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        // Replace this with your actual logic
+        Text('Successful hacks you did: ${MySuccessfulHacksList.length}'),
+        Text('Unsuccessful hacks you did: ${MyUnSuccessfulHacksList.length}'),
+        Text('Successful hacks done against you: ${AgainstSuccessfulHacksList.length}'),
+        Text('unsuccessful hacks done against you: ${AgainstUnSuccessfulHacksList.length}'),
+      ],
+    );
+  }
+
 }
+
+class LoadingBars extends StatefulWidget {
+  @override
+  _LoadingBarsState createState() => _LoadingBarsState();
+}
+
+class _LoadingBarsState extends State<LoadingBars> with TickerProviderStateMixin {
+  late List<AnimationController> _animationControllers;
+  final int _barsCount = 3;
+  final Duration _animationDuration = const Duration(milliseconds: 300);
+
+  @override
+  void initState() {
+    super.initState();
+    _animationControllers = List.generate(_barsCount, (index) {
+      return AnimationController(
+        vsync: this,
+        duration: _animationDuration,
+      )..repeat(reverse: true);
+    });
+
+    // Start each bar's animation after a delay
+    for (int i = 0; i < _barsCount; i++) {
+      Timer(Duration(milliseconds: i * 100), () {
+        _animationControllers[i].forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _animationControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(_barsCount, (index) {
+        return ScaleTransition(
+          scale: Tween(begin: 0.5, end: 1.0).animate(
+            CurvedAnimation(
+              parent: _animationControllers[index],
+              curve: Curves.easeInOut,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            child: Container(
+              width: 10,
+              height: 30,
+              color: (index == 0 ? Colors.yellow : (index == 1 ? Colors.blue : Colors.red)),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+

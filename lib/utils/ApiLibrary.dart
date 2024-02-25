@@ -11,11 +11,11 @@ class ApiLibrary {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    print("Sended ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    // print("Sended ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     final response = await http.get(uri, headers: headers);
 
-    print("Status ~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    print(response.statusCode);
+    // print("Status ~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // print(response.statusCode);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonBody =
           Map<String, dynamic>.from(json.decode(response.body));
