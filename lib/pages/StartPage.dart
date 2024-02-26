@@ -85,7 +85,7 @@ class _StartPageWidgetState extends State<StartPageWidget> {
 
   void buttonAction(BuildContext context) {
     userName = myController.text;
-    print(userName);
+
     Navigator.pop(context);
     Navigator.push(
       context,
