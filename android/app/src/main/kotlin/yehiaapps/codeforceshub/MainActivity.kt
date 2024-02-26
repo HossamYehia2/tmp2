@@ -1,4 +1,4 @@
-package com.example.first_app
+package yehiaapps.codeforceshub
 
 import io.flutter.embedding.android.FlutterActivity
 

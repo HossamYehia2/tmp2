@@ -7,7 +7,7 @@ import 'dto/submission_history/submission_history_response_dto.dart';
 import 'dto/user_info/user_info_response_dto.dart';
 
 // mazihang2022
-String userName = "_hossamyehia_";
+String userName = '';// = "_hossamyehia_";
 
 var isUserInfoResponseDtoLoaded = false;
 UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto();

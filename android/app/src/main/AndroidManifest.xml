@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.first_app">
+    package="yehiaapps.codeforceshub">
    <application
         android:label="first_app"
         android:name="${applicationName}"

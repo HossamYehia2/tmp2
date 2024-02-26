@@ -212,10 +212,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         return Colors.purple.shade700;
       }
       case "master": {
-        return Colors.deepOrangeAccent.shade700;
+        return Colors.orangeAccent;
       }
       case "international master": {
-        return Colors.deepOrangeAccent.shade700;
+        return Colors.orangeAccent;
       }
       case "grandmaster": {
         return Colors.red.shade700;
