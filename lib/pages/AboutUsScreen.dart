@@ -14,9 +14,9 @@ class AboutUsScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     double edgeInsetsWidth = screenWidth * 0.05;
-    double edgeInsetsHeight = screenHeight * 0.05;
+    double edgeInsetsHeight = screenHeight * 0.03;
 
-    double screenHeightRatio = MediaQuery.of(context).size.height * 0.02;
+    double screenHeightRatio = MediaQuery.of(context).size.height * 0.01;
 
     return Scaffold(
       drawer: const NavBar(),
@@ -25,56 +25,82 @@ class AboutUsScreen extends StatelessWidget {
         backgroundColor: Colors.blue[800],
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(edgeInsetsWidth, edgeInsetsHeight, edgeInsetsWidth, edgeInsetsHeight),
+        padding: EdgeInsets.fromLTRB(edgeInsetsWidth, edgeInsetsHeight, edgeInsetsWidth, 0),
         child: Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: TextDirection.ltr,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AutoSizeText(
-                'Welcome to the Codeforces Companion App! Our app is designed to help competitive programmers like you keep track of Codeforces contests, see detailed schedules, and never miss a competition.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
+              AutoSizeText(
+                'Welcome to the Codeforces Hub App! Our app is designed to help competitive programmers like you keep track of Codeforces contests, see detailed schedules, and never miss a competition.',
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: screenHeightRatio),
-              const AutoSizeText('Features:'),
-              const AutoSizeText(
+              AutoSizeText(
+                'Features:',
+                style: TextStyle(fontSize: screenHeight * 0.02, fontWeight: FontWeight.bold, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 1,
+              ),
+              AutoSizeText(
                 'Contest Times: Get the start and end times for each contest.',
-                style: TextStyle(fontSize: 30.0, fontFamily: 'Cairo'),
-                maxLines: 1,
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const AutoSizeText(
+              AutoSizeText(
                 'Duration Details: Know exactly how long each contest will last.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
-                maxLines: 1,
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const AutoSizeText(
+              AutoSizeText(
                 'Hacks and Insights: Access tips and tricks to improve your strategy.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
-                maxLines: 1,
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const AutoSizeText(
+              AutoSizeText(
                 'Rating Tracker: Monitor your progress with updates on your user rating after each contest.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
-                maxLines: 1,
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: screenHeightRatio),
-              const AutoSizeText('Our Goal:'),
+              AutoSizeText(
+                'Our Goal:',
+                style: TextStyle(fontSize: screenHeight * 0.02, fontWeight: FontWeight.bold, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
+                maxLines: 1,
+              ),
               AutoSizeText(
                 'We aim to make competitive programming more accessible and enjoyable. With our app, you can easily plan for contests, improve your skills, and track your growth in the competitive coding community.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: screenHeightRatio),
               AutoSizeText(
-                'Join our community of coders and take your competitive programming to the next level with our Codeforces Companion App.',
-                style: TextStyle(fontSize: 20.0, fontFamily: 'Cairo'),
+                'Join our community of coders and take your competitive programming to the next level with our Codeforces Hub App.',
+                style: TextStyle(fontSize: screenHeight * 0.02, fontFamily: 'Cairo'),
+                minFontSize: 10,
+                stepGranularity: 1,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
