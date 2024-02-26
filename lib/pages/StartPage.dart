@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'ProfilePage.dart'; // Ensure this import is correct for your project structure
+import '../Variables.dart';
+import 'ProfilePage.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -83,7 +84,8 @@ class _StartPageWidgetState extends State<StartPageWidget> {
   }
 
   void buttonAction(BuildContext context) {
-    // Navigate to ProfilePage
+    userName = myController.text;
+
     Navigator.pop(context);
     Navigator.push(
       context,
